@@ -11,6 +11,7 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <title>Istighfar</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff;--card:#f2f2f7;--text:#000;--sub:#8a8a8e;--ring:#12b886;--track:#12b88626;--bar:#12b886;
@@ -63,6 +64,12 @@ h1{font-size:32px;margin:6px 0 2px;font-weight:700;letter-spacing:-.5px}
 .cal .d.fut{opacity:.35}
 .sum{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .sum .tile b{font-size:20px}
+.f{width:100%;padding:12px;border-radius:12px;border:0;background:var(--bg);color:var(--text);font-size:16px;font-family:inherit;margin:6px 0;user-select:text;-webkit-user-select:text;outline:0}
+.pb{background:var(--ring);color:#04130e;border:0;border-radius:12px;padding:12px 16px;font-weight:700;font-size:15px;font-family:inherit;cursor:pointer;margin-top:6px}
+.lk{background:none;border:0;color:var(--ring);font-weight:600;font-size:14px;font-family:inherit;cursor:pointer;padding:6px 0}
+.row{display:flex;gap:8px;align-items:center}.row .pb{margin-top:0;flex:none}
+.lb{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--track);font-variant-numeric:tabular-nums}.lb.me{color:var(--ring);font-weight:700}
+.sub{color:var(--sub);font-size:14px;margin:4px 0 10px}
 .ok{color:var(--ring);font-size:14px;font-weight:600;margin-top:8px;height:18px}
 .tile input{width:100%;font:700 22px inherit;font-family:inherit;color:var(--ring);background:none;border:0;border-bottom:2px solid var(--track);padding:0 0 2px;outline:0;border-radius:0;user-select:text;-webkit-user-select:text;font-variant-numeric:tabular-nums}
 .tile input:focus{border-bottom-color:var(--ring)}
@@ -74,7 +81,7 @@ h1{font-size:32px;margin:6px 0 2px;font-weight:700;letter-spacing:-.5px}
   <h1>Istighfar</h1>
   <div class="date" id="date"></div>
   <div class="tabs" id="tabs">
-    <button data-v="day" class="on">Day</button><button data-v="week">Week</button><button data-v="month">Month</button>
+    <button data-v="day" class="on">Day</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="friends">Friends</button>
   </div>
   <div id="content" style="flex:1;display:flex;flex-direction:column"></div>
 </div>
@@ -154,7 +161,7 @@ function updDay(){
 function bump(d){
   var k=key(TODAY),n=Math.max(0,(S.days[k]||0)+d);
   if(n===0)delete S.days[k];else S.days[k]=n;
-  save();updDay();
+  save();updDay();push();
 }
 function tap(){
   bump(1);
@@ -218,7 +225,7 @@ function renderMonth(){
 }
 
 function render(){
-  if(view==='day')renderDay();else if(view==='week')renderWeek();else renderMonth();
+  if(view==='day')renderDay();else if(view==='week')renderWeek();else if(view==='month')renderMonth();else renderFriends();
 }
 $('date').textContent=TODAY.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 $('tabs').addEventListener('click',function(e){
@@ -228,7 +235,106 @@ $('tabs').addEventListener('click',function(e){
   Array.prototype.forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.getAttribute('data-v')===v)});
   render();
 });
-render();
+
+/* ---------- ONLINE (Supabase) ---------- */
+var SB=null,ME=null,PROF=null,RANGE='today',AM='in',pt=null;
+try{SB=supabase.createClient('https://rfnxlolvnkgqwpsbcbzg.supabase.co','sb_publishable_jqB0kvywuWsKArOVYxz9_A_e8x8b8kS')}catch(e){}
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function msg(t){var m=$('msg');if(m)m.textContent=t||''}
+function push(now){
+  if(!SB||!ME)return Promise.resolve();
+  clearTimeout(pt);
+  var go=function(){return SB.from('daily_counts').upsert({user_id:ME.id,day:key(TODAY),count:cnt(TODAY)})};
+  if(now)return go();
+  pt=setTimeout(go,800);return Promise.resolve();
+}
+async function loadProf(){var r=await SB.from('profiles').select('username').eq('id',ME.id).maybeSingle();PROF=r.data}
+async function sync(){
+  var r=await SB.from('daily_counts').select('day,count'),rem={},up=[],k;
+  (r.data||[]).forEach(function(x){rem[x.day]=x.count});
+  for(k in rem)if(rem[k]>(S.days[k]||0))S.days[k]=rem[k];
+  for(k in S.days)if(S.days[k]>(rem[k]||0))up.push({user_id:ME.id,day:k,count:S.days[k]});
+  if(up.length)await SB.from('daily_counts').upsert(up);
+  save();
+}
+async function init(){
+  if(!SB)return;
+  try{
+    var s=(await SB.auth.getSession()).data.session;
+    if(s){ME=s.user;await loadProf();await sync();if(view==='day')updDay();else render()}
+  }catch(e){}
+}
+async function saveName(un){
+  if(!/^[a-z0-9_]{3,20}$/.test(un)){msg('Username: 3-20 letters, numbers or _');return false}
+  var p=await SB.from('profiles').insert({id:ME.id,username:un});
+  if(p.error){msg(p.error.code==='23505'?'Username already taken':p.error.message);return false}
+  PROF={username:un};return true;
+}
+function renderFriends(){
+  if(!SB){$('content').innerHTML='<div class="card">Online features are unavailable right now.</div>';return}
+  if(!ME)return authView();
+  if(!PROF)return nameView();
+  groupsView();
+}
+function authView(){
+  var up=AM==='up';
+  $('content').innerHTML='<div class="card"><b style="font-size:22px">'+(up?'Create account':'Sign in')+'</b><p class="sub">Sync your counts and compete with friends.</p>'+
+  (up?'<input class="f" id="un" placeholder="Username" maxlength="20" autocapitalize="none" autocomplete="off">':'')+
+  '<input class="f" id="em" type="email" placeholder="Email" autocapitalize="none"><input class="f" id="pw" type="password" placeholder="Password (min 6)">'+
+  '<button class="pb" id="go">'+(up?'Sign up':'Sign in')+'</button><div class="ok" id="msg"></div>'+
+  '<button class="lk" id="sw">'+(up?'Have an account? Sign in':'New here? Create account')+'</button></div>';
+  $('sw').onclick=function(){AM=up?'in':'up';authView()};
+  $('go').onclick=async function(){
+    var em=$('em').value.trim(),pw=$('pw').value,un=up?$('un').value.trim().toLowerCase():'',r;
+    if(up&&!/^[a-z0-9_]{3,20}$/.test(un))return msg('Username: 3-20 letters, numbers or _');
+    msg('Please wait...');
+    if(up){
+      r=await SB.auth.signUp({email:em,password:pw});
+      if(r.error)return msg(r.error.message);
+      if(!r.data.session)return msg('Check your email to confirm, then sign in.');
+      ME=r.data.user;
+      if(!(await saveName(un)))return nameView('That username is taken. Pick another.');
+    }else{
+      r=await SB.auth.signInWithPassword({email:em,password:pw});
+      if(r.error)return msg(r.error.message);
+      ME=r.data.user;await loadProf();
+    }
+    await sync();render();
+  };
+}
+function nameView(note){
+  $('content').innerHTML='<div class="card"><b style="font-size:22px">Choose a username</b><p class="sub">Friends will see this on the leaderboard.</p><input class="f" id="un" maxlength="20" autocapitalize="none" placeholder="Username"><button class="pb" id="sv">Save</button><div class="ok" id="msg">'+esc(note||'')+'</div></div>';
+  $('sv').onclick=async function(){if(await saveName($('un').value.trim().toLowerCase())){await sync();render()}};
+}
+function rng(){
+  var y=TODAY.getFullYear(),m=TODAY.getMonth();
+  if(RANGE==='today')return[key(TODAY),key(TODAY)];
+  if(RANGE==='week'){var s=addDays(TODAY,-((TODAY.getDay()+1)%7));return[key(s),key(addDays(s,6))]}
+  return[key(new Date(y,m,1)),key(new Date(y,m+1,0))];
+}
+async function groupsView(){
+  await push(true);
+  var g=(await SB.from('groups').select('id,name,code').order('name')).data||[];
+  $('content').innerHTML='<div class="nav"><span>@'+esc(PROF.username)+'</span><button class="lk" id="so">Sign out</button></div>'+
+  '<div class="tabs" id="rg">'+['today','week','month'].map(function(x){return'<button data-r="'+x+'"'+(x===RANGE?' class="on"':'')+'>'+x[0].toUpperCase()+x.slice(1)+'</button>'}).join('')+'</div><div id="lbs"></div>'+
+  '<div class="card"><b>Create a group</b><div class="row"><input class="f" id="gn" placeholder="Group name" maxlength="30"><button class="pb" id="gc">Create</button></div>'+
+  '<b style="display:block;margin-top:14px">Join with a code</b><div class="row"><input class="f" id="gj" placeholder="Code" maxlength="10" autocapitalize="none"><button class="pb" id="gjb">Join</button></div><div class="ok" id="msg"></div></div>';
+  $('so').onclick=async function(){await SB.auth.signOut();ME=null;PROF=null;S.days={};save();render()};
+  $('rg').onclick=function(e){var r=e.target.getAttribute('data-r');if(r){RANGE=r;groupsView()}};
+  $('gc').onclick=async function(){var n=$('gn').value.trim();if(!n)return;var r=await SB.rpc('create_group',{gname:n});if(r.error)msg(r.error.message);else groupsView()};
+  $('gjb').onclick=async function(){var c=$('gj').value.trim().toLowerCase();if(!c)return;var r=await SB.rpc('join_group',{gcode:c});if(r.error)msg(r.error.message);else groupsView()};
+  var box=$('lbs'),R=rng();
+  if(!g.length){box.innerHTML='<div class="card sub">No groups yet. Create one and share its code with friends.</div>';return}
+  for(var i=0;i<g.length;i++){
+    var r=await SB.rpc('leaderboard',{gid:g[i].id,d1:R[0],d2:R[1]}),rows=r.data||[];
+    var h='<div class="card"><div class="nav" style="margin:0 0 6px"><b>'+esc(g[i].name)+'</b><span class="sub" style="margin:0">Code: '+esc(g[i].code)+'</span></div>';
+    rows.forEach(function(x,j){h+='<div class="lb'+(x.username===PROF.username?' me':'')+'"><span>'+(j+1)+'. '+esc(x.username)+'</span><span>'+fmt(Number(x.total))+'</span></div>'});
+    h+='<button class="lk" data-leave="'+g[i].id+'">Leave group</button></div>';
+    box.insertAdjacentHTML('beforeend',h);
+  }
+  box.onclick=async function(e){var id=e.target.getAttribute('data-leave');if(id){await SB.from('group_members').delete().eq('group_id',id).eq('user_id',ME.id);groupsView()}};
+}
+render();init();
 if("serviceWorker" in navigator){try{navigator.serviceWorker.register("sw.js")}catch(e){}}
 </script>
 </body>

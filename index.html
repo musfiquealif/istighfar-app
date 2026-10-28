@@ -74,6 +74,56 @@ h1{font-size:32px;margin:6px 0 2px;font-weight:700;letter-spacing:-.5px}
 .tile input{width:100%;font:700 22px inherit;font-family:inherit;color:var(--ring);background:none;border:0;border-bottom:2px solid var(--track);padding:0 0 2px;outline:0;border-radius:0;user-select:text;-webkit-user-select:text;font-variant-numeric:tabular-nums}
 .tile input:focus{border-bottom-color:var(--ring)}
 @media (prefers-reduced-motion:reduce){.arc,.bigring{transition:none}}
+/* ---------- REELS ---------- */
+#reels{position:fixed;inset:0;z-index:50;background:#000;color:#fff;display:none}
+body.reels-on{overflow:hidden}body.reels-on #reels{display:block}
+.feed{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}
+.feed::-webkit-scrollbar{display:none}
+.reel{position:relative;height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer}
+.rbody{width:100%;max-width:560px;padding:calc(76px + env(safe-area-inset-top,0px)) 76px calc(44px + env(safe-area-inset-bottom,0px)) 24px;text-align:center}
+.rref{font-weight:700;font-size:15px;letter-spacing:.3px;color:#2de2a6}
+.rsub{font-size:12px;opacity:.65;margin-top:3px}.rsub .ra{font-family:Amiri,"Noto Naskh Arabic",serif;font-size:15px}
+.rbis{font-family:Amiri,"Noto Naskh Arabic","Geeza Pro",serif;font-size:22px;opacity:.75;margin-top:18px;direction:rtl}
+.rtxt{max-height:62vh;overflow-y:auto;margin-top:18px;overscroll-behavior:contain;scrollbar-width:none}
+.rtxt::-webkit-scrollbar{display:none}
+.rar{font-family:Amiri,"Noto Naskh Arabic","Geeza Pro",serif;direction:rtl;line-height:1.95}
+.rar.xl{font-size:38px}.rar.l{font-size:31px}.rar.m{font-size:25px}.rar.s{font-size:21px}
+.ren{font-size:17px;line-height:1.55;opacity:.9;margin-top:16px}.ren.s{font-size:14px}
+.rpos{font-size:12px;opacity:.5;margin-top:16px}
+.ract{position:absolute;right:8px;bottom:calc(96px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:20px;align-items:center;z-index:1}
+.ract button{background:none;border:0;color:#fff;display:flex;flex-direction:column;align-items:center;gap:3px;font:600 11px inherit;font-family:inherit;cursor:pointer;filter:drop-shadow(0 1px 3px #000a);padding:0;width:56px}
+.ract svg{width:30px;height:30px;fill:currentColor}
+.ract button.on{color:#ff3b5c}
+.heart{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;pointer-events:none;opacity:0;fill:#ff3b5c;filter:drop-shadow(0 4px 12px #0008)}
+.heart.go{animation:pop .85s ease}
+@keyframes pop{0%{opacity:0;transform:scale(.3)}15%{opacity:1;transform:scale(1.15)}30%{transform:scale(.95)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.1) translateY(-40px)}}
+.rtop{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top,0px)) 8px 14px;background:linear-gradient(#000b,#0000);pointer-events:none}
+.rtop>*{pointer-events:auto}
+.ib{background:none;border:0;color:#fff;font-size:21px;min-width:40px;height:40px;cursor:pointer;font-family:inherit}
+.rmode{display:flex;gap:18px}
+.rmode button{background:none;border:0;color:#fff9;font:700 16px inherit;font-family:inherit;padding:6px 0;border-bottom:2px solid transparent;cursor:pointer}
+.rmode button.on{color:#fff;border-bottom-color:#fff}
+.pill{font-size:11px;font-weight:800;letter-spacing:.5px;border:1.5px solid #fff8;border-radius:10px;padding:3px 7px;min-width:0;height:auto}
+.pill.on{background:#2de2a6;border-color:#2de2a6;color:#04130e}
+.spin{width:34px;height:34px;border:3px solid #fff3;border-top-color:#2de2a6;border-radius:50%;animation:sp .8s linear infinite;margin:auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.rerr{opacity:.85;font-size:15px}.rerr .pb{display:block;margin:14px auto 0}
+#rdim{position:absolute;inset:0;background:#0008;z-index:3;display:none}#rdim.open{display:block}
+#rsheet{position:absolute;left:0;right:0;bottom:0;height:82%;max-width:560px;margin:0 auto;background:#1c1c1e;border-radius:18px 18px 0 0;z-index:4;transform:translateY(105%);transition:transform .25s ease;display:flex;flex-direction:column;padding:10px 16px calc(6px + env(safe-area-inset-bottom,0px))}
+#rsheet.open{transform:none}
+.rst{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.rst button{background:#2c2c2e;border:0;color:#fff;border-radius:9px;padding:7px 14px;font:600 14px inherit;font-family:inherit;cursor:pointer}
+.rst button.on{background:#2de2a6;color:#04130e}
+.rst .lk{margin-left:auto;background:none;color:#2de2a6}
+#rsheet .f{background:#2c2c2e;color:#fff}
+.rlist{flex:1;overflow-y:auto;overscroll-behavior:contain}
+.rli{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid #ffffff14;cursor:pointer}
+.rli small{display:block;opacity:.55;font-size:12px;margin-top:2px}
+.rli .a{font-family:Amiri,"Noto Naskh Arabic",serif;font-size:20px;color:#2de2a6}
+.rcred{font-size:11px;opacity:.55;padding:10px 2px 4px;line-height:1.5}.rcred a{color:#2de2a6}
+#rtoast{position:absolute;left:50%;bottom:calc(40px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#fff;color:#000;font-weight:600;font-size:14px;padding:8px 14px;border-radius:18px;z-index:5;opacity:0;transition:opacity .2s;pointer-events:none}
+#rtoast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.heart.go{animation:none}#rsheet{transition:none}}
 </style>
 </head>
 <body>
@@ -81,7 +131,7 @@ h1{font-size:32px;margin:6px 0 2px;font-weight:700;letter-spacing:-.5px}
   <h1>Istighfar</h1>
   <div class="date" id="date"></div>
   <div class="tabs" id="tabs">
-    <button data-v="day" class="on">Day</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="friends">Friends</button>
+    <button data-v="day" class="on">Day</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="reels">Reels</button><button data-v="friends">Friends</button>
   </div>
   <div id="content" style="flex:1;display:flex;flex-direction:column"></div>
 </div>
@@ -95,6 +145,8 @@ function key(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate
 function cnt(d){return S.days[key(d)]||0}
 function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
 var TODAY=new Date();TODAY.setHours(0,0,0,0);
+// If the app stays open past midnight, move "today" forward (returns true if it changed)
+function newDay(){var d=new Date();d.setHours(0,0,0,0);if(d.getTime()===TODAY.getTime())return false;TODAY=d;var h=document.getElementById('date');if(h)h.textContent=TODAY.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});return true}
 var view='day',off=0;
 var WD=['Sat','Sun','Mon','Tue','Wed','Thu','Fri'];
 var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -159,6 +211,7 @@ function updDay(){
   $('al').textContent=fmt(total());
 }
 function bump(d){
+  if(newDay()&&d<0)return updDay();
   var k=key(TODAY),n=Math.max(0,(S.days[k]||0)+d);
   if(n===0)delete S.days[k];else S.days[k]=n;
   save();updDay();push();
@@ -225,7 +278,7 @@ function renderMonth(){
 }
 
 function render(){
-  if(view==='day')renderDay();else if(view==='week')renderWeek();else if(view==='month')renderMonth();else renderFriends();
+  if(view==='day')renderDay();else if(view==='week')renderWeek();else if(view==='month')renderMonth();else if(view==='reels')openReels();else renderFriends();
 }
 $('date').textContent=TODAY.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 $('tabs').addEventListener('click',function(e){
@@ -244,18 +297,21 @@ function msg(t){var m=$('msg');if(m)m.textContent=t||''}
 function push(now){
   if(!SB||!ME)return Promise.resolve();
   clearTimeout(pt);
-  var go=function(){return SB.from('daily_counts').upsert({user_id:ME.id,day:key(TODAY),count:cnt(TODAY)})};
+  var uid=ME.id,day=key(TODAY);
+  var go=function(){return SB.from('daily_counts').upsert({user_id:uid,day:day,count:S.days[day]||0})};
   if(now)return go();
   pt=setTimeout(go,800);return Promise.resolve();
 }
 async function loadProf(){var r=await SB.from('profiles').select('username').eq('id',ME.id).maybeSingle();PROF=r.data}
 async function sync(){
-  var r=await SB.from('daily_counts').select('day,count'),rem={},up=[],k;
+  // Only my own rows, so friends' counts can never be merged into mine
+  var r=await SB.from('daily_counts').select('day,count').eq('user_id',ME.id),rem={},up=[],k;
+  if(r.error)throw r.error;
   (r.data||[]).forEach(function(x){rem[x.day]=x.count});
   for(k in rem)if(rem[k]>(S.days[k]||0))S.days[k]=rem[k];
   for(k in S.days)if(S.days[k]>(rem[k]||0))up.push({user_id:ME.id,day:k,count:S.days[k]});
-  if(up.length)await SB.from('daily_counts').upsert(up);
   save();
+  if(up.length){var u=await SB.from('daily_counts').upsert(up);if(u.error)throw u.error}
 }
 async function init(){
   if(!SB)return;
@@ -284,27 +340,34 @@ function authView(){
   '<button class="pb" id="go">'+(up?'Sign up':'Sign in')+'</button><div class="ok" id="msg"></div>'+
   '<button class="lk" id="sw">'+(up?'Have an account? Sign in':'New here? Create account')+'</button></div>';
   $('sw').onclick=function(){AM=up?'in':'up';authView()};
+  var busy=false;
   $('go').onclick=async function(){
+    if(busy)return;
     var em=$('em').value.trim(),pw=$('pw').value,un=up?$('un').value.trim().toLowerCase():'',r;
     if(up&&!/^[a-z0-9_]{3,20}$/.test(un))return msg('Username: 3-20 letters, numbers or _');
-    msg('Please wait...');
-    if(up){
-      r=await SB.auth.signUp({email:em,password:pw});
-      if(r.error)return msg(r.error.message);
-      if(!r.data.session)return msg('Check your email to confirm, then sign in.');
-      ME=r.data.user;
-      if(!(await saveName(un)))return nameView('That username is taken. Pick another.');
-    }else{
-      r=await SB.auth.signInWithPassword({email:em,password:pw});
-      if(r.error)return msg(r.error.message);
-      ME=r.data.user;await loadProf();
-    }
-    await sync();render();
+    if(!em||!pw)return msg('Enter your email and password.');
+    busy=true;$('go').disabled=true;msg('Please wait...');
+    try{
+      if(up){
+        r=await SB.auth.signUp({email:em,password:pw});
+        if(r.error)return msg(r.error.message);
+        if(!r.data.session)return msg('Check your email to confirm, then sign in.');
+        ME=r.data.user;
+        // saveName shows its own message (taken / other error) if it fails
+        if(!(await saveName(un))){var m=$('msg').textContent;return nameView(m)}
+      }else{
+        r=await SB.auth.signInWithPassword({email:em,password:pw});
+        if(r.error)return msg(r.error.message);
+        ME=r.data.user;await loadProf();
+      }
+      await sync();render();
+    }catch(e){msg('Something went wrong: '+(e.message||e))}
+    finally{busy=false;var b=$('go');if(b)b.disabled=false}
   };
 }
 function nameView(note){
   $('content').innerHTML='<div class="card"><b style="font-size:22px">Choose a username</b><p class="sub">Friends will see this on the leaderboard.</p><input class="f" id="un" maxlength="20" autocapitalize="none" placeholder="Username"><button class="pb" id="sv">Save</button><div class="ok" id="msg">'+esc(note||'')+'</div></div>';
-  $('sv').onclick=async function(){if(await saveName($('un').value.trim().toLowerCase())){await sync();render()}};
+  $('sv').onclick=async function(){try{if(await saveName($('un').value.trim().toLowerCase())){await sync();render()}}catch(e){msg('Something went wrong: '+(e.message||e))}};
 }
 function rng(){
   var y=TODAY.getFullYear(),m=TODAY.getMonth();
@@ -312,28 +375,294 @@ function rng(){
   if(RANGE==='week'){var s=addDays(TODAY,-((TODAY.getDay()+1)%7));return[key(s),key(addDays(s,6))]}
   return[key(new Date(y,m,1)),key(new Date(y,m+1,0))];
 }
+var GV=0;
 async function groupsView(){
+  var me=++GV,stale=function(){return me!==GV||view!=='friends'||!ME};
+  newDay();
   await push(true);
-  var g=(await SB.from('groups').select('id,name,code').order('name')).data||[];
+  var gr=await SB.from('groups').select('id,name,code').order('name'),g=gr.data||[];
+  // Stop if the user switched tabs or reloaded this view while we were waiting
+  if(stale())return;
   $('content').innerHTML='<div class="nav"><span>@'+esc(PROF.username)+'</span><button class="lk" id="so">Sign out</button></div>'+
   '<div class="tabs" id="rg">'+['today','week','month'].map(function(x){return'<button data-r="'+x+'"'+(x===RANGE?' class="on"':'')+'>'+x[0].toUpperCase()+x.slice(1)+'</button>'}).join('')+'</div><div id="lbs"></div>'+
   '<div class="card"><b>Create a group</b><div class="row"><input class="f" id="gn" placeholder="Group name" maxlength="30"><button class="pb" id="gc">Create</button></div>'+
   '<b style="display:block;margin-top:14px">Join with a code</b><div class="row"><input class="f" id="gj" placeholder="Code" maxlength="10" autocapitalize="none"><button class="pb" id="gjb">Join</button></div><div class="ok" id="msg"></div></div>';
-  $('so').onclick=async function(){await SB.auth.signOut();ME=null;PROF=null;S.days={};save();render()};
+  $('so').onclick=async function(){
+    // Upload today's latest count before wiping this device
+    var p=await push(true);
+    if(p&&p.error&&!confirm('Your latest counts could not be uploaded and will be lost from this device. Sign out anyway?'))return;
+    await SB.auth.signOut();ME=null;PROF=null;S.days={};save();render();
+  };
   $('rg').onclick=function(e){var r=e.target.getAttribute('data-r');if(r){RANGE=r;groupsView()}};
   $('gc').onclick=async function(){var n=$('gn').value.trim();if(!n)return;var r=await SB.rpc('create_group',{gname:n});if(r.error)msg(r.error.message);else groupsView()};
   $('gjb').onclick=async function(){var c=$('gj').value.trim().toLowerCase();if(!c)return;var r=await SB.rpc('join_group',{gcode:c});if(r.error)msg(r.error.message);else groupsView()};
   var box=$('lbs'),R=rng();
+  if(gr.error){box.innerHTML='<div class="card">Could not load groups: '+esc(gr.error.message)+'</div>';return}
   if(!g.length){box.innerHTML='<div class="card sub">No groups yet. Create one and share its code with friends.</div>';return}
   for(var i=0;i<g.length;i++){
     var r=await SB.rpc('leaderboard',{gid:g[i].id,d1:R[0],d2:R[1]}),rows=r.data||[];
+    if(stale())return;
     var h='<div class="card"><div class="nav" style="margin:0 0 6px"><b>'+esc(g[i].name)+'</b><span class="sub" style="margin:0">Code: '+esc(g[i].code)+'</span></div>';
+    if(r.error)h+='<div class="sub">Could not load leaderboard: '+esc(r.error.message)+'</div>';
     rows.forEach(function(x,j){h+='<div class="lb'+(x.username===PROF.username?' me':'')+'"><span>'+(j+1)+'. '+esc(x.username)+'</span><span>'+fmt(Number(x.total))+'</span></div>'});
     h+='<button class="lk" data-leave="'+g[i].id+'">Leave group</button></div>';
     box.insertAdjacentHTML('beforeend',h);
   }
-  box.onclick=async function(e){var id=e.target.getAttribute('data-leave');if(id){await SB.from('group_members').delete().eq('group_id',id).eq('user_id',ME.id);groupsView()}};
+  box.onclick=async function(e){
+    var id=e.target.getAttribute('data-leave');
+    if(!id||!confirm('Leave this group?'))return;
+    var d=await SB.from('group_members').delete().eq('group_id',id).eq('user_id',ME.id);
+    if(d.error)return msg('Could not leave group: '+d.error.message);
+    groupsView();
+  };
 }
+/* ---------- REELS (Quran, swipe up for the next verse) ----------
+   Verses load at runtime from AlQuran Cloud (alquran.cloud):
+   Arabic = Tanzil Uthmani text, English = Pickthall (public domain), audio = Alafasy. */
+var RK='istighfar-reels',RS=null;
+try{RS=JSON.parse(localStorage.getItem(RK))}catch(e){}
+RS=Object.assign({mode:'random',pos:1,saved:[],auto:false},RS||{});
+function rsave(){try{localStorage.setItem(RK,JSON.stringify(RS))}catch(e){}}
+var QAPI='https://api.alquran.cloud/v1/',QN=6236,QC={},SURAHS=null,SOFF=[],AUD=null,PLAYING=false,FEED=[],ACT=-1,SEEN={},NSEEN=0,IO=null,FD=null,SHEET='surahs';
+var GRAD=['#0b3d2e,#020a07','#1b2a4a,#05070f','#3a1f3d,#0b060c','#3d2f14,#0b0904','#0f3b3f,#030b0c','#2b1a3f,#07050b','#3b1a1a,#0b0505'];
+var IC={
+  like:'<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>',
+  play:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+  pause:'<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
+  share:'<svg viewBox="0 0 24 24"><path d="M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6a2 2 0 01-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3a2 2 0 012 2z"/></svg>',
+  read:'<svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>'
+};
+
+function qGet(n){
+  if(QC[n])return Promise.resolve(QC[n]);
+  return fetch(QAPI+'ayah/'+n+'/editions/quran-uthmani,en.pickthall,ar.alafasy').then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
+  }).then(function(j){
+    var a=j.data[0],e=j.data[1],au=j.data[2]||{},ar=String(a.text).replace(/^﻿/,'').trim(),bis='';
+    // The source puts "Bismillah" at the start of each surah's first verse: show it as a header instead
+    if(a.numberInSurah===1&&a.surah.number!==1){
+      var w=ar.split(/\s+/);
+      if(w.length>4&&w[0].replace(/[ً-ٰٟۖ-ۭ]/g,'').indexOf('بسم')===0){bis=w.slice(0,4).join(' ');ar=w.slice(4).join(' ')}
+    }
+    return QC[n]={n:n,ar:ar,bis:bis,en:e.text,s:a.surah.number,sn:a.surah.englishName,st:a.surah.englishNameTranslation,sa:a.surah.name,
+      i:a.numberInSurah,of:a.surah.numberOfAyahs,au:au.audio||('https://cdn.islamic.network/quran/audio/128/ar.alafasy/'+n+'.mp3')};
+  });
+}
+function buildReels(){
+  if($('reels'))return;
+  var d=document.createElement('div');d.id='reels';
+  d.innerHTML='<div class="rtop"><button class="ib" id="rx" aria-label="Close">&#x2715;</button>'+
+    '<div class="rmode" id="rmode"><button data-m="random">For you</button><button data-m="order">In order</button></div>'+
+    '<div style="display:flex;align-items:center;gap:2px"><button class="ib pill" id="rau" aria-label="Auto-play recitation">AUTO</button><button class="ib" id="rmenu" aria-label="Surahs and saved">&#x2630;</button></div></div>'+
+    '<div class="feed" id="feed"></div><div id="rdim"></div>'+
+    '<div id="rsheet"><div class="rst"><button data-t="surahs">Surahs</button><button data-t="saved">Saved</button><button class="lk" id="rdone">Done</button></div>'+
+    '<input class="f" id="rq" placeholder="Search surah name or number" autocomplete="off"><div class="rlist" id="rlist"></div>'+
+    '<div class="rcred">Arabic text: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project</a> (Uthmani). English: Marmaduke Pickthall (public domain). Recitation: Mishary Rashid Alafasy. Served by <a href="https://alquran.cloud" target="_blank" rel="noopener">AlQuran Cloud</a>.</div></div>'+
+    '<div id="rtoast"></div>';
+  document.body.appendChild(d);
+  FD=$('feed');
+  IO=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)activate(+e.target.getAttribute('data-i'))})},{root:FD,threshold:0.6});
+  $('rx').onclick=function(){if(history.state&&history.state.reels)history.back();else closeReels()};
+  $('rmode').onclick=function(e){var m=e.target.getAttribute('data-m');if(m&&m!==RS.mode){RS.mode=m;startFeed()}};
+  $('rau').onclick=function(){RS.auto=!RS.auto;rsave();markTop();toast(RS.auto?'Auto-play on: recites and moves to the next verse':'Auto-play off');if(RS.auto&&!PLAYING&&ACT>=0)playReel(ACT)};
+  $('rmenu').onclick=function(){openSheet('surahs')};
+  $('rdone').onclick=$('rdim').onclick=closeSheet;
+  $('rsheet').querySelector('.rst').addEventListener('click',function(e){var t=e.target.getAttribute('data-t');if(t)openSheet(t)});
+  $('rq').oninput=renderSheet;
+  $('rlist').onclick=function(e){var li=e.target.closest('[data-n]');if(li){closeSheet();RS.mode='order';startFeed(+li.getAttribute('data-n'))}};
+  var lastTap=0,lastI=-1,tapT=null;
+  FD.onclick=function(e){
+    var r=e.target.closest('.reel');if(!r)return;
+    var i=+r.getAttribute('data-i'),b=e.target.closest('[data-a]');
+    if(b)return reelAction(b.getAttribute('data-a'),i,r);
+    // One tap = play/pause recitation, two quick taps = save (like Instagram)
+    var now=Date.now();
+    if(now-lastTap<300&&lastI===i){clearTimeout(tapT);lastTap=0;like(i,true);burst(r);return}
+    lastTap=now;lastI=i;tapT=setTimeout(function(){togglePlay(i)},300);
+  };
+}
+function openReels(){
+  buildReels();
+  $('content').innerHTML='';
+  if(document.body.classList.contains('reels-on'))return;
+  document.body.classList.add('reels-on');
+  try{history.pushState({reels:1},'')}catch(e){}
+  markTop();
+  if(!FEED.length)startFeed();
+}
+function closeReels(){
+  if(!document.body.classList.contains('reels-on'))return;
+  document.body.classList.remove('reels-on');
+  stopAudio();closeSheet();
+  view='day';
+  Array.prototype.forEach.call($('tabs').children,function(b){b.classList.toggle('on',b.getAttribute('data-v')==='day')});
+  render();
+}
+window.addEventListener('popstate',closeReels);
+function markTop(){
+  Array.prototype.forEach.call($('rmode').children,function(b){b.classList.toggle('on',b.getAttribute('data-m')===RS.mode)});
+  $('rau').classList.toggle('on',RS.auto);
+}
+// n = global verse number (1-6236) to start from in "In order" mode
+function startFeed(n){
+  if(n){RS.mode='order';RS.pos=n}
+  rsave();stopAudio();markTop();
+  FEED=[];ACT=-1;SEEN={};NSEEN=0;IO.disconnect();FD.innerHTML='';FD.scrollTop=0;
+  more(4);
+}
+function nextN(){
+  if(RS.mode==='random'){
+    if(NSEEN>QN-50){SEEN={};NSEEN=0}
+    var n;do{n=1+Math.floor(Math.random()*QN)}while(SEEN[n]);
+    SEEN[n]=1;NSEEN++;return n;
+  }
+  var last=FEED.length?FEED[FEED.length-1]:RS.pos-1;
+  return last>=QN?1:last+1;
+}
+function more(k){
+  for(var j=0;j<k;j++){
+    var i=FEED.length,n=nextN(),el=document.createElement('section');
+    FEED.push(n);
+    el.className='reel';el.setAttribute('data-i',i);
+    el.style.background='linear-gradient(160deg,'+GRAD[n%GRAD.length]+')';
+    el.innerHTML='<div class="rbody"></div><div class="ract">'+
+      '<button data-a="like" aria-label="Save">'+IC.like+'<span>Save</span></button>'+
+      '<button data-a="play" aria-label="Play recitation">'+IC.play+'<span>Listen</span></button>'+
+      '<button data-a="share" aria-label="Share">'+IC.share+'<span>Share</span></button>'+
+      '<button data-a="read" aria-label="Read from here">'+IC.read+'<span>Read on</span></button></div>'+
+      '<svg class="heart" viewBox="0 0 24 24"><path d="'+IC.like.match(/d="([^"]+)"/)[1]+'"/></svg>';
+    FD.appendChild(el);IO.observe(el);loadReel(el,i);
+  }
+}
+function loadReel(el,i){
+  var body=el.querySelector('.rbody'),n=FEED[i];
+  body.innerHTML='<div class="spin"></div>';
+  qGet(n).then(function(q){
+    if(!el.isConnected)return;
+    var L=q.ar.length,sz=L<90?'xl':L<220?'l':L<500?'m':'s';
+    body.innerHTML='<div class="rref">'+esc(q.sn)+' &middot; '+q.s+':'+q.i+'</div>'+
+      '<div class="rsub">'+esc(q.st)+' &middot; <span class="ra">'+esc(q.sa)+'</span></div>'+
+      (q.bis?'<div class="rbis" lang="ar">'+esc(q.bis)+'</div>':'')+
+      '<div class="rtxt"><div class="rar '+sz+'" lang="ar" dir="rtl">'+esc(q.ar)+'</div><div class="ren'+(q.en.length>600?' s':'')+'">'+esc(q.en)+'</div></div>'+
+      '<div class="rpos">Verse '+q.i+' of '+q.of+'</div>';
+    markLike(el,n);
+    if(i===ACT&&RS.auto&&!PLAYING)playReel(i);
+  }).catch(function(){
+    if(!el.isConnected)return;
+    body.innerHTML='<div class="rerr">Couldn’t load this verse.<br>Check your internet connection.<button class="pb" data-a="retry">Try again</button></div>';
+  });
+}
+function activate(i){
+  if(i===ACT)return;
+  ACT=i;
+  if(RS.mode==='order'){RS.pos=FEED[i];rsave()}
+  stopAudio();
+  if(RS.auto)playReel(i);
+  if(i>=FEED.length-3)more(4);
+}
+function reelAction(a,i,r){
+  if(a==='like')like(i,false);
+  else if(a==='play')togglePlay(i);
+  else if(a==='share')shareReel(i);
+  else if(a==='read'){RS.mode='order';startFeed(FEED[i]);toast('Reading in order from here')}
+  else if(a==='retry')loadReel(r,i);
+}
+function isSaved(n){for(var k=0;k<RS.saved.length;k++)if(RS.saved[k].n===n)return k;return -1}
+function markLike(el,n){var b=el.querySelector('[data-a=like]');if(b)b.classList.toggle('on',isSaved(n)>=0)}
+function like(i,onlyAdd){
+  var q=QC[FEED[i]];if(!q)return;
+  var k=isSaved(q.n);
+  if(k>=0){if(onlyAdd)return;RS.saved.splice(k,1)}
+  else RS.saved.unshift({n:q.n,ref:q.sn+' '+q.s+':'+q.i,en:q.en.slice(0,90)});
+  rsave();
+  Array.prototype.forEach.call(FD.children,function(el){if(FEED[+el.getAttribute('data-i')]===q.n)markLike(el,q.n)});
+}
+function burst(r){var h=r.querySelector('.heart');h.classList.remove('go');void h.offsetWidth;h.classList.add('go')}
+function shareReel(i){
+  var q=QC[FEED[i]];if(!q)return;
+  var t=q.ar+'\n\n'+q.en+'\n\n— Quran '+q.s+':'+q.i+' ('+q.sn+')';
+  if(navigator.share)navigator.share({text:t}).catch(function(){});
+  else if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast('Copied to clipboard')},function(){});
+}
+function markPlay(){
+  if(!FD)return;
+  Array.prototype.forEach.call(FD.querySelectorAll('[data-a=play]'),function(b){
+    var on=PLAYING&&+b.closest('.reel').getAttribute('data-i')===ACT;
+    b.innerHTML=(on?IC.pause:IC.play)+'<span>'+(on?'Pause':'Listen')+'</span>';
+  });
+}
+function playReel(i){
+  var q=QC[FEED[i]];if(!q)return;
+  if(!AUD){
+    AUD=new Audio();
+    AUD.onended=function(){
+      PLAYING=false;markPlay();
+      if(RS.auto){var nx=FD.children[ACT+1];if(nx)nx.scrollIntoView({behavior:'smooth'})}
+    };
+    AUD.onerror=function(){PLAYING=false;markPlay();toast('Couldn’t play the recitation')};
+  }
+  if(AUD._n!==q.n){AUD.src=q.au;AUD._n=q.n}
+  PLAYING=true;markPlay();
+  var p=AUD.play();
+  if(p&&p.catch)p.catch(function(){PLAYING=false;markPlay()});
+}
+function togglePlay(i){
+  if(i!==ACT)return;
+  if(PLAYING){AUD.pause();PLAYING=false;markPlay()}else playReel(i);
+}
+function stopAudio(){
+  if(AUD){AUD.pause();try{AUD.currentTime=0}catch(e){}}
+  PLAYING=false;markPlay();
+}
+var toastT=null;
+function toast(t){var el=$('rtoast');if(!el)return;el.textContent=t;el.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove('on')},1800)}
+function openSheet(t){
+  SHEET=t;$('rq').value='';
+  $('rq').style.display=t==='surahs'?'':'none';
+  Array.prototype.forEach.call($('rsheet').querySelectorAll('[data-t]'),function(b){b.classList.toggle('on',b.getAttribute('data-t')===t)});
+  $('rsheet').classList.add('open');$('rdim').classList.add('open');
+  if(t==='surahs'&&!SURAHS)loadSurahs();
+  renderSheet();
+}
+function closeSheet(){var s=$('rsheet');if(s){s.classList.remove('open');$('rdim').classList.remove('open')}}
+function setSurahs(list){
+  SURAHS=list;SOFF=[];
+  for(var k=0,o=0;k<list.length;k++){SOFF[list[k].number]=o;o+=list[k].numberOfAyahs}
+}
+function loadSurahs(){
+  try{var c=JSON.parse(localStorage.getItem('istighfar-surahs'));if(c&&c.length===114){setSurahs(c);return}}catch(e){}
+  fetch(QAPI+'surah').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){
+    var list=j.data.map(function(s){return{number:s.number,name:s.name,englishName:s.englishName,englishNameTranslation:s.englishNameTranslation,numberOfAyahs:s.numberOfAyahs}});
+    setSurahs(list);
+    try{localStorage.setItem('istighfar-surahs',JSON.stringify(list))}catch(e){}
+    renderSheet();
+  }).catch(function(){if(SHEET==='surahs')$('rlist').innerHTML='<p class="sub">Couldn’t load the surah list. Check your connection and try again.</p>'});
+}
+function renderSheet(){
+  var box=$('rlist'),h='';
+  if(SHEET==='saved'){
+    if(!RS.saved.length)h='<p class="sub">Nothing saved yet. Double-tap a verse or tap the heart to save it.</p>';
+    RS.saved.forEach(function(s){h+='<div class="rli" data-n="'+s.n+'"><div><b>'+esc(s.ref)+'</b><small>'+esc(s.en||'')+'…</small></div></div>'});
+    box.innerHTML=h;return;
+  }
+  if(!SURAHS){box.innerHTML='<div class="spin" style="margin-top:30px"></div>';return}
+  var q=$('rq').value.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+  SURAHS.forEach(function(s){
+    if(q&&String(s.number)!==q&&(s.englishName+s.englishNameTranslation).toLowerCase().replace(/[^a-z0-9]/g,'').indexOf(q)<0)return;
+    h+='<div class="rli" data-n="'+(SOFF[s.number]+1)+'"><div><b>'+s.number+'. '+esc(s.englishName)+'</b><small>'+esc(s.englishNameTranslation)+' &middot; '+s.numberOfAyahs+' verses</small></div><span class="a">'+esc(s.name)+'</span></div>';
+  });
+  box.innerHTML=h||'<p class="sub">No surah found.</p>';
+}
+// Computer keyboard: arrows to move between verses, space to play/pause
+document.addEventListener('keydown',function(e){
+  if(!document.body.classList.contains('reels-on')||e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();FD.scrollBy({top:(e.key==='ArrowDown'?1:-1)*FD.clientHeight,behavior:'smooth'})}
+  else if(e.key===' '){e.preventDefault();if(ACT>=0)togglePlay(ACT)}
+  else if(e.key==='Escape')$('rx').click();
+});
+
+// Coming back to the app on a new day: refresh the screen so "today" is correct
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&newDay())render()});
 render();init();
 if("serviceWorker" in navigator){try{navigator.serviceWorker.register("sw.js")}catch(e){}}
 </script>

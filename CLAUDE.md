@@ -1,4 +1,4 @@
-# Istighfar app (future name: DhikrRing)
+# Dhikr Ring (formerly the Istighfar app)
 
 ## What this is
 A tap counter for istighfar (أَسْتَغْفِرُ ٱللَّٰهَ), styled like Apple Fitness rings. Tap anywhere on the Day screen to count. Installable as a home-screen web app (PWA).

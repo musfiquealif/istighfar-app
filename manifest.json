@@ -1,6 +1,6 @@
 {
- "name": "Istighfar",
- "short_name": "Istighfar",
+ "name": "Dhikr Ring",
+ "short_name": "Dhikr Ring",
  "start_url": "./index.html",
  "scope": "./",
  "display": "standalone",
